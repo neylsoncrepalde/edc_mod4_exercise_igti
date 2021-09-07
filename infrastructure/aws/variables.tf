@@ -1,13 +1,13 @@
 variable "region_id" {
-  default = "us-east-1"
+  default = "us-east-2"
 }
 
 variable "prefix" {
-  default = "prefix"
+  default = "igti-ney-mod4"
 }
 
 variable "account" {
-  default = 123456789
+  default = 127012818163
 }
 
 # Prefix configuration and project common tags
@@ -22,7 +22,7 @@ locals {
     BusinessUnit = "Data"
     Billing      = "Infrastructure"
     Environment  = terraform.workspace
-    UserEmail    = "rony@a3data.com.br"
+    UserEmail    = "neylson.crepalde@a3data.com.br"
   }
 }
 
