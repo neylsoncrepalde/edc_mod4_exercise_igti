@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: meunginx
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: meunginx
+  template:
+    metadata:
+      labels:
+        app: meunginx
+    spec:
+      containers:
+      - name: webserver
+        image: nginx:1.21.3
+        ports:
+        - containerPort: 80

@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: readpandas
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 60
+  template:
+    spec:
+      containers:
+      - name: readshow
+        image: neylsoncrepalde/exemplo_job:v4_amd
+        env:
+          - name: MINHA_VAR
+            valueFrom:
+              configMapKeyRef:
+                name: ambiente
+                key: minha_var
+        command: ["python", "-c", "import os; print(os.environ['MINHA_VAR'])"]
+      restartPolicy: Never
