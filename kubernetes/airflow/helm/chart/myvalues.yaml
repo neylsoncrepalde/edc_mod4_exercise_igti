@@ -250,7 +250,7 @@ data:
     user: postgres
     pass: postgres
     protocol: postgresql
-    host: ~
+    host: 10.100.33.174
     port: 5432
     db: postgres
     sslmode: disable
@@ -1057,7 +1057,7 @@ cleanup:
 # Configuration for postgresql subchart
 # Not recommended for production
 postgresql:
-  enabled: true
+  enabled: false
   postgresqlPassword: postgres
   postgresqlUsername: postgres
 
