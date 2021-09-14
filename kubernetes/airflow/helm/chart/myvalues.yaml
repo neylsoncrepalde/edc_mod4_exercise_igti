@@ -250,7 +250,7 @@ data:
     user: postgres
     pass: postgres
     protocol: postgresql
-    host: 10.100.33.174
+    host: 10.100.44.168
     port: 5432
     db: postgres
     sslmode: disable
