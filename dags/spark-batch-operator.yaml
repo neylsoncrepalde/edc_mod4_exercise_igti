@@ -2,7 +2,7 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: job-pyspark-batch-346e0ba6
-  namespace: default
+  namespace: airflow
 spec:
   volumes:
     - name: ivy
