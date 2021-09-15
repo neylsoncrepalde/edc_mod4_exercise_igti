@@ -16,25 +16,37 @@ spec:
   type: Python
   pythonVersion: "3"
   mode: cluster
-  image: "127012818163.dkr.ecr.us-east-1.amazonaws.com/ney-spark-operator:latest"
+  image: "docker.io/neylsoncrepalde/spark-operator:v3.0.0-aws"
   imagePullPolicy: Always
-  mainApplicationFile: s3a://a3data-architecture-team/awesome-jobs/example-pyspark-k8s.py
-  sparkVersion: "3.1.1"
+  mainApplicationFile: s3a://emr-code-539445819060/ney/pyspark/spark-operator-processing-job-batch.py
+  sparkVersion: "3.0.0"
   restartPolicy:
     type: Never
   driver:
+    envSecretKeyRefs:
+      AWS_ACCESS_KEY_ID:
+        name: aws-credentials
+        key: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        name: aws-credentials
+        key: aws_secret_access_key
     cores: 1
     coreLimit: "1200m"
     memory: "4g"
     labels:
-      version: 3.1.1
+      version: 3.0.0
     serviceAccount: spark
-    securityContext:
-      fsGroup: 65534
     volumeMounts:
       - name: ivy
         mountPath: /tmp
   executor:
+    envSecretKeyRefs:
+      AWS_ACCESS_KEY_ID:
+        name: aws-credentials
+        key: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        name: aws-credentials
+        key: aws_secret_access_key
     cores: 3
     instances: 3
     memory: "4g"
