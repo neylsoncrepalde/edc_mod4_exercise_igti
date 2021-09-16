@@ -145,3 +145,5 @@ converte_parquet_monitor >> agrega_sexo >> agrega_sexo_monitor
 converte_parquet_monitor >> agrega_notas >> agrega_notas_monitor
 [agrega_idade_monitor, agrega_sexo_monitor, agrega_notas_monitor] >> join_final >> join_final_monitor
 join_final_monitor >> trigger_crawler_final
+[agrega_idade_monitor, agrega_notas_monitor] >> agrega_sexo
+[agrega_idade_monitor, agrega_notas_monitor] >> anonimiza_inscricao
