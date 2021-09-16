@@ -29,7 +29,7 @@ if __name__ == "__main__":
         .read
         .format("csv")
         .options(header='true', inferSchema='true', delimiter=';')
-        .load("s3a://dl-landing-zone-539445819060/titanic/")
+        .load("s3a://dl-landing-zone-539445819060/enem/")
     )
     
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     .write
     .mode("overwrite")
     .format("parquet")
-    .save("s3a://dl-processing-zone-539445819060/titanic/")
+    .save("s3a://dl-processing-zone-539445819060/enem/")
     )
 
     print("*****************")
