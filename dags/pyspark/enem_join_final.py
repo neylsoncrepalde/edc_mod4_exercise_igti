@@ -56,7 +56,7 @@ if __name__ == "__main__":
     )
 
     (
-        uf_sexo
+        uf_final
         .write
         .mode("overwrite")
         .format("parquet")
