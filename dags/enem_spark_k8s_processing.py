@@ -33,7 +33,7 @@ with DAG(
         'max_active_runs': 1,
     },
     description='submit spark-pi as sparkApplication on kubernetes',
-    schedule_interval="0 */1 * * *",
+    schedule_interval="0 */2 * * *",
     start_date=days_ago(1),
     catchup=False,
     tags=['spark', 'kubernetes', 'batch', 'enem'],
