@@ -2,10 +2,18 @@ from airflow import DAG
 
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+from airflow.decorators import task
+from airflow.models import Variable
 import boto3
-from airflow.providers.amazon.aws.operators.glue_crawler import GlueCrawlerOperator
+
+aws_access_key_id = Variable.get('aws_access_key_id')
+aws_secret_access_key = Variable.get('aws_secret_access_key')
+glue = boto3.client('glue', 
+                    aws_access_key_id=aws_access_key_id, 
+                    aws_secret_access_key=aws_secret_access_key)
 
 from airflow.utils.dates import days_ago
+
 
 with DAG(
     'enem_batch_spark_k8s',
@@ -53,14 +61,10 @@ with DAG(
         kubernetes_conn_id="kubernetes_default",
     )
 
-    trigger_crawler_inscricao = GlueCrawlerOperator(
-        task_id='trigger_crawler_inscricao',
-        config={
-            'Name': "enem_anon_crawler",
-            'Database': 'dl_consumer_zone'
-        },
-        aws_conn_id="my_aws",
-    )
+    @task
+    def trigger_crawler_inscricao():
+        glue.start_crawler(Name='enem_anon_crawler')
+
 
     agrega_idade = SparkKubernetesOperator(
         task_id='agrega_idade',
@@ -122,14 +126,9 @@ with DAG(
         kubernetes_conn_id="kubernetes_default",
     )
 
-    trigger_crawler_final = GlueCrawlerOperator(
-        task_id='trigger_crawler_final',
-        config={
-            'Name': "enem_uf_final_crawler",
-            'Database': 'dl_consumer_zone'
-        },
-        aws_conn_id="my_aws",
-    )
+    @task
+    def trigger_crawler_final():
+        glue.start_crawler(Name='enem_uf_final_crawler')
 
 
 converte_parquet >> converte_parquet_monitor >> anonimiza_inscricao >> anonimiza_inscricao_monitor
