@@ -1,0 +1,58 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: spark-enem-idade-{{ macros.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") }}
+  namespace: airflow
+spec:
+  volumes:
+    - name: ivy
+      emptyDir: {}
+  sparkConf:
+    extraJavaOptions: -Dcom.amazonaws.services.s3.enableV4=true
+    spark.jars.packages: "org.apache.hadoop:hadoop-aws:2.7.3,org.apache.spark:spark-avro_2.12:3.0.1"
+    spark.driver.extraJavaOptions: "-Divy.cache.dir=/tmp -Divy.home=/tmp"
+    spark.kubernetes.allocation.batch.size: "10"
+  hadoopConf:
+    fs.s3a.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: "docker.io/neylsoncrepalde/spark-operator:v3.0.0-aws"
+  imagePullPolicy: Always
+  mainApplicationFile: s3a://emr-code-539445819060/ney/pyspark/enem_agrega_idade.py
+  sparkVersion: "3.0.0"
+  restartPolicy:
+    type: Never
+  driver:
+    envSecretKeyRefs:
+      AWS_ACCESS_KEY_ID:
+        name: aws-credentials
+        key: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        name: aws-credentials
+        key: aws_secret_access_key
+    cores: 1
+    coreLimit: "1200m"
+    memory: "4g"
+    labels:
+      version: 3.0.0
+    serviceAccount: airflow-worker
+    volumeMounts:
+      - name: ivy
+        mountPath: /tmp
+  executor:
+    envSecretKeyRefs:
+      AWS_ACCESS_KEY_ID:
+        name: aws-credentials
+        key: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        name: aws-credentials
+        key: aws_secret_access_key
+    cores: 3
+    instances: 3
+    memory: "4g"
+    labels:
+      version: 3.0.0
+    volumeMounts:
+      - name: ivy
+        mountPath: /tmp
