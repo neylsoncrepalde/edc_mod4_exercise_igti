@@ -174,7 +174,7 @@ env:
   - name: AIRFLOW__CORE__REMOTE_LOGGING
     value: 'True'
   - name: AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER
-    value: 's3://airflow-logs-127012818163/logs/'
+    value: 's3://airflow-logs-539445819060/logs/'
   - name: AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID
     value: 'my_aws'
 # - name: ""

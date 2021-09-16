@@ -8,6 +8,7 @@ spec:
     - name: ivy
       emptyDir: {}
   sparkConf:
+    extraJavaOptions: -Dcom.amazonaws.services.s3.enableV4=true
     spark.jars.packages: "org.apache.hadoop:hadoop-aws:2.7.3,org.apache.spark:spark-avro_2.12:3.0.1"
     spark.driver.extraJavaOptions: "-Divy.cache.dir=/tmp -Divy.home=/tmp"
     spark.kubernetes.allocation.batch.size: "10"
@@ -18,7 +19,7 @@ spec:
   mode: cluster
   image: "docker.io/neylsoncrepalde/spark-operator:v3.0.0-aws"
   imagePullPolicy: Always
-  mainApplicationFile: s3a://emr-code-127012818163/pyspark/spark-operator-processing-job-batch.py
+  mainApplicationFile: s3a://emr-code-539445819060/ney/pyspark/spark-operator-enem.py
   sparkVersion: "3.0.0"
   restartPolicy:
     type: Never
