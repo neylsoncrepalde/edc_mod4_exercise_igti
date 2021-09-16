@@ -2,7 +2,7 @@ from airflow import DAG
 
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
-from airflow.decorators import task
+from airflow.operators.python_operator import PythonOperator
 from airflow.models import Variable
 import boto3
 
@@ -13,6 +13,13 @@ glue = boto3.client('glue', region_name='us-east-1',
                     aws_secret_access_key=aws_secret_access_key)
 
 from airflow.utils.dates import days_ago
+
+def trigger_crawler_inscricao_func():
+        glue.start_crawler(Name='enem_anon_crawler')
+
+def trigger_crawler_final_func():
+        glue.start_crawler(Name='enem_uf_final_crawler')
+
 
 
 with DAG(
@@ -61,10 +68,10 @@ with DAG(
         kubernetes_conn_id="kubernetes_default",
     )
 
-    @task
-    def trigger_crawler_inscricao():
-        glue.start_crawler(Name='enem_anon_crawler')
-
+    trigger_crawler_inscricao = PythonOperator(
+        task_id='trigger_crawler_inscricao',
+        python_callable=trigger_crawler_inscricao_func,
+    )
 
     agrega_idade = SparkKubernetesOperator(
         task_id='agrega_idade',
@@ -126,10 +133,10 @@ with DAG(
         kubernetes_conn_id="kubernetes_default",
     )
 
-    @task
-    def trigger_crawler_final():
-        glue.start_crawler(Name='enem_uf_final_crawler')
-
+    trigger_crawler_final = PythonOperator(
+        task_id='trigger_crawler_final',
+        python_callable=trigger_crawler_final_func,
+    )
 
 converte_parquet >> converte_parquet_monitor >> anonimiza_inscricao >> anonimiza_inscricao_monitor
 anonimiza_inscricao_monitor >> trigger_crawler_inscricao
