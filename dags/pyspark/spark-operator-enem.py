@@ -32,8 +32,6 @@ if __name__ == "__main__":
         .load("s3a://dl-landing-zone-539445819060/enem/")
     )
     
-
-    df.show()
     df.printSchema()
 
     (df
