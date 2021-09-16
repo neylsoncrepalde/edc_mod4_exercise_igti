@@ -54,8 +54,11 @@ with DAG(
 
     trigger_crawler_inscricao = GlueCrawlerOperator(
         task_id='trigger_crawler_inscricao',
-        name="enem_anon_crawler",
-        database="dl_consumer_zone",
+        config={
+            'Name': "enem_anon_crawler",
+            'Database': 'dl_consumer_zone'
+        },
+        aws_conn_id="my_aws",
     )
 
     agrega_idade = SparkKubernetesOperator(
@@ -120,8 +123,11 @@ with DAG(
 
     trigger_crawler_final = GlueCrawlerOperator(
         task_id='trigger_crawler_final',
-        name="enem_uf_final_crawler",
-        database="dl_consumer_zone",
+        config={
+            'Name': "enem_uf_final_crawler",
+            'Database': 'dl_consumer_zone'
+        },
+        aws_conn_id="my_aws",
     )
 
 
