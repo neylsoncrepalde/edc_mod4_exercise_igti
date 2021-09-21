@@ -37,3 +37,5 @@ terraform.rc
 *_env
 *.env
 *.DS_Store
+enade/
+enade2017*
