@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minhaapi-deployment
+  labels:
+    app: minhaapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: minhaapi
+  template:
+    metadata:
+      labels:
+        app: minhaapi
+    spec:
+      containers:
+      - name: webserverapi
+        image: neylsoncrepalde/api_raiz:amd64-v3
+        ports:
+        - containerPort: 8087
