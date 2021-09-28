@@ -43,6 +43,7 @@ with DAG(
         cmds=["python", "/run.py"],
         name="extraction-enade-2017",
         task_id="extraction-enade-2017",
+        image_pull_policy="Always",
         is_delete_operator_pod=True,
         in_cluster=True,
         get_logs=True,

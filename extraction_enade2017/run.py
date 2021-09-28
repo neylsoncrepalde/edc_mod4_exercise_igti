@@ -22,7 +22,7 @@ myzip.extractall('./enade2017')
 print("Upload to S3...")
 s3_client = boto3.client('s3')
 s3_client.upload_file(
-    "./enade2019/microdados_Enade_2017_portal_2018.10.09/3.DADOS/MICRODADOS_ENADE_2017.txt", 
+    "./enade2017/microdados_Enade_2017_portal_2018.10.09/3.DADOS/MICRODADOS_ENADE_2017.txt", 
     "dl-landing-zone-539445819060", 
     "enade2017/MICRODADOS_ENADE_2017.txt"
 )
