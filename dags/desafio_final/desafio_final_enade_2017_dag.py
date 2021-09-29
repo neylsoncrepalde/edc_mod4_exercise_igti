@@ -16,7 +16,7 @@ glue = boto3.client('glue', region_name='us-east-1',
 from airflow.utils.dates import days_ago
 
 
-def trigger_crawler_enade2017():
+def trigger_crawler_enade2017_func():
     glue.start_crawler(Name='enade2017_crawler')
 
 
@@ -65,10 +65,10 @@ with DAG(
         kubernetes_conn_id="kubernetes_default",
     )
 
-    trigger_crawler_inscricao = PythonOperator(
-        task_id='trigger_crawler_inscricao',
-        python_callable=trigger_crawler_enade2017,
+    trigger_crawler_enade2017 = PythonOperator(
+        task_id='trigger_crawler_enade2017',
+        python_callable=trigger_crawler_enade2017_func,
     )
 
 
-extracao >> converte_parquet >> converte_parquet_monitor >> trigger_crawler_inscricao
+extracao >> converte_parquet >> converte_parquet_monitor >> trigger_crawler_enade2017
