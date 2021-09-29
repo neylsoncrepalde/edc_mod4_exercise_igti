@@ -16,8 +16,8 @@ glue = boto3.client('glue', region_name='us-east-1',
 from airflow.utils.dates import days_ago
 
 
-def trigger_crawler_final_func():
-    glue.start_crawler(Name='enem_uf_final_crawler')
+def trigger_crawler_enade2017():
+    glue.start_crawler(Name='enade2017_crawler')
 
 
 with DAG(
@@ -50,27 +50,25 @@ with DAG(
     )
 
 
-    # converte_parquet = SparkKubernetesOperator(
-    #     task_id='converte_parquet',
-    #     namespace="airflow",
-    #     application_file="enem_converte_parquet.yaml",
-    #     kubernetes_conn_id="kubernetes_default",
-    #     do_xcom_push=True,
-    # )
+    converte_parquet = SparkKubernetesOperator(
+        task_id='converte_parquet',
+        namespace="airflow",
+        application_file="enade2017_converte_parquet.yaml",
+        kubernetes_conn_id="kubernetes_default",
+        do_xcom_push=True,
+    )
 
-    # converte_parquet_monitor = SparkKubernetesSensor(
-    #     task_id='converte_parquet_monitor',
-    #     namespace="airflow",
-    #     application_name="{{ task_instance.xcom_pull(task_ids='converte_parquet')['metadata']['name'] }}",
-    #     kubernetes_conn_id="kubernetes_default",
-    # )
+    converte_parquet_monitor = SparkKubernetesSensor(
+        task_id='converte_parquet_monitor',
+        namespace="airflow",
+        application_name="{{ task_instance.xcom_pull(task_ids='converte_parquet')['metadata']['name'] }}",
+        kubernetes_conn_id="kubernetes_default",
+    )
 
-    
-
-    # trigger_crawler_inscricao = PythonOperator(
-    #     task_id='trigger_crawler_inscricao',
-    #     python_callable=trigger_crawler_inscricao_func,
-    # )
+    trigger_crawler_inscricao = PythonOperator(
+        task_id='trigger_crawler_inscricao',
+        python_callable=trigger_crawler_enade2017,
+    )
 
 
-
+extracao >> converte_parquet >> converte_parquet_monitor >> trigger_crawler_inscricao
