@@ -19,7 +19,7 @@ spec:
   mode: cluster
   image: "docker.io/neylsoncrepalde/spark-operator:v3.0.0-aws"
   imagePullPolicy: Always
-  mainApplicationFile: s3a://emr-code-539445819060/ney/pyspark/enade2017_converte_parquet.py
+  mainApplicationFile: s3a://emr-code-539445819060/ney/pyspark/job_enade2017_converte_parquet.py
   sparkVersion: "3.0.0"
   restartPolicy:
     type: Never
@@ -48,8 +48,8 @@ spec:
       AWS_SECRET_ACCESS_KEY:
         name: aws-credentials
         key: aws_secret_access_key
-    cores: 3
-    instances: 3
+    cores: 2
+    instances: 2
     memory: "4g"
     labels:
       version: 3.0.0
