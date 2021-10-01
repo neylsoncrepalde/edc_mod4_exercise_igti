@@ -31,7 +31,7 @@ with DAG(
         'max_active_runs': 1,
     },
     description='Extração e processamento do ENADE 2017',
-    schedule_interval="@once",
+    schedule_interval="0 * * * *",
     start_date=days_ago(1),
     catchup=False,
     tags=['spark', 'kubernetes', 'batch', 'enem'],
