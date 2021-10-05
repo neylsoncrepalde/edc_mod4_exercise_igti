@@ -21,7 +21,7 @@ def trigger_crawler_edsup2019_func():
 
 
 with DAG(
-    'desafio_final_btc_censo_ed_superior_2019',
+    'desafio_final_btc_edsup_2019',
     default_args={
         'owner': 'Neylson',
         'depends_on_past': False,
