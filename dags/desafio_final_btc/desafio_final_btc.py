@@ -34,7 +34,7 @@ with DAG(
     schedule_interval="0 * * * *",
     start_date=days_ago(1),
     catchup=False,
-    tags=['spark', 'kubernetes', 'batch', 'enem'],
+    tags=['spark', 'kubernetes', 'batch', 'Censo', 'edsup'],
 ) as dag:
 
     extracao = KubernetesPodOperator(
