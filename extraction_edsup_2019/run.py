@@ -20,20 +20,21 @@ print("Unzip files...")
 myzip = zipfile.ZipFile(filebytes)
 myzip.extractall(basepath)
 
-
+# Pega a pasta "do meio" com caracteres esquisitos
+pastadomeio = os.listdir(basepath + '/microdados_educacao_superior_2019')[-1]
 
 s3_client = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
 
 print("Upload ALUNO to S3...")
 s3_client.upload_file(
-    basepath + "/microdados_educacao_superior_2019/Microdados_Educa‡ֶo_Superior_2019/dados/SUP_ALUNO_2019.CSV", 
+    basepath + "/microdados_educacao_superior_2019/" + pastadomeio + "/dados/SUP_ALUNO_2019.CSV", 
     "dl-landing-zone-539445819060", 
     "edsup2019/aluno/SUP_ALUNO_2019.CSV"
 )
 
 print("Upload DOCENTE to S3...")
 s3_client.upload_file(
-    basepath + "/microdados_educacao_superior_2019/Microdados_Educa‡ֶo_Superior_2019/dados/SUP_DOCENTE_2019.CSV", 
+    basepath + "/microdados_educacao_superior_2019/" + pastadomeio + "/dados/SUP_DOCENTE_2019.CSV", 
     "dl-landing-zone-539445819060", 
     "edsup2019/docente/SUP_DOCENTE_2019.CSV"
 )
@@ -41,7 +42,7 @@ s3_client.upload_file(
 
 print("Upload CURSO to S3...")
 s3_client.upload_file(
-    basepath + "/microdados_educacao_superior_2019/Microdados_Educa‡ֶo_Superior_2019/dados/SUP_CURSO_2019.CSV", 
+    basepath + "/microdados_educacao_superior_2019/" + pastadomeio + "/dados/SUP_CURSO_2019.CSV", 
     "dl-landing-zone-539445819060", 
     "edsup2019/curso/SUP_CURSO_2019.CSV"
 )
