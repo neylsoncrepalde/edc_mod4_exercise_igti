@@ -48,8 +48,8 @@ spec:
       AWS_SECRET_ACCESS_KEY:
         name: aws-credentials
         key: aws_secret_access_key
-    cores: 4
-    instances: 4
+    cores: 3
+    instances: 3
     memory: "4g"
     labels:
       version: 3.0.0
