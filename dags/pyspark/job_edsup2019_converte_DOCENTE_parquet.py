@@ -50,7 +50,7 @@ if __name__ == '__main__':
             .when(col("TP_COR_RACA") == 2, "Preta")
             .when(col("TP_COR_RACA") == 3, "Parda")
             .when(col("TP_COR_RACA") == 4, "Amarela")
-            .when(col("TP_COR_RACA") == 5, "Indígena")
+            .when(col("TP_COR_RACA") == 5, "Indigena")
             .when(col("TP_COR_RACA") == 9, None)
             .when(col("TP_COR_RACA").isNull(), None)
         )
