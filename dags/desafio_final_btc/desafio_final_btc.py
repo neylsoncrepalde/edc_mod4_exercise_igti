@@ -37,7 +37,7 @@ with DAG(
         'max_active_runs': 1,
     },
     description='Extração e processamento do Censo da Ed. Superior 2019',
-    schedule_interval="0 * * * *",
+    schedule_interval=None,
     start_date=days_ago(1),
     catchup=False,
     tags=['spark', 'kubernetes', 'batch', 'Censo', 'edsup'],
