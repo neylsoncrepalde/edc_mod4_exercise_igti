@@ -37,10 +37,10 @@ airflowHome: /opt/airflow
 defaultAirflowRepository: apache/airflow
 
 # Default airflow tag to deploy
-defaultAirflowTag: "2.1.2"
+defaultAirflowTag: "2.3.0"
 
 # Airflow version (Used to make some decisions based on Airflow Version being deployed)
-airflowVersion: "2.1.2"
+airflowVersion: "2.3.0"
 
 # Images
 images:
@@ -132,11 +132,6 @@ ingress:
       # the name of a pre-created Secret containing a TLS private key and certificate
       secretName: ""
 
-    # HTTP paths to add to the flower Ingress before the default path
-    precedingPaths: []
-
-    # Http paths to add to the flower Ingress after the default path
-    succeedingPaths: []
 
 # Network policy configuration
 networkPolicies:
@@ -171,7 +166,7 @@ allowPodLaunching: true
 
 # Environment variables for all airflow containers
 env:
-  - name: AIRFLOW__CORE__REMOTE_LOGGING
+  - name: AIRFLOW__LOGGING__REMOTE_LOGGING
     value: 'True'
   - name: AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER
     value: 's3://airflow-logs-539445819060/logs/'

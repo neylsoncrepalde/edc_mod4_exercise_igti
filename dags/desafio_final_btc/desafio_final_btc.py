@@ -1,5 +1,6 @@
 from airflow import DAG
 
+from airflow.operators.dummy_operator import DummyOperator
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
@@ -43,18 +44,19 @@ with DAG(
     tags=['spark', 'kubernetes', 'batch', 'Censo', 'edsup'],
 ) as dag:
 
-    extracao = KubernetesPodOperator(
-        namespace='airflow',
-        image="539445819060.dkr.ecr.us-east-1.amazonaws.com/extraction-edsup-2019:latest",
-        cmds=["python", "/run.py"],
-        name="extraction-edsup-2019",
-        task_id="extraction-edsup-2019",
-        image_pull_policy="Always",
-        is_delete_operator_pod=True,
-        in_cluster=True,
-        get_logs=True,
-    )
+    # extracao = KubernetesPodOperator(
+    #     namespace='airflow',
+    #     image="539445819060.dkr.ecr.us-east-1.amazonaws.com/extraction-edsup-2019:latest",
+    #     cmds=["python", "/run.py"],
+    #     name="extraction-edsup-2019",
+    #     task_id="extraction-edsup-2019",
+    #     image_pull_policy="Always",
+    #     is_delete_operator_pod=True,
+    #     in_cluster=True,
+    #     get_logs=True,
+    # )
 
+    inicio = DummyOperator(task_id='inicio')
 
     converte_ALUNOS_parquet = SparkKubernetesOperator(
         task_id='converte_ALUNOS_parquet',
@@ -120,7 +122,7 @@ with DAG(
     )
 
 
-extracao >> [converte_CURSO_parquet, converte_DOCENTE_parquet]
+inicio >> [converte_CURSO_parquet, converte_DOCENTE_parquet]
 converte_CURSO_parquet >> converte_CURSO_parquet_monitor >> trigger_crawler_edsup2019_curso
 converte_DOCENTE_parquet >> converte_DOCENTE_parquet_monitor >> trigger_crawler_edsup2019_docente
 converte_DOCENTE_parquet_monitor >> converte_ALUNOS_parquet >> converte_ALUNOS_parquet_monitor >> trigger_crawler_edsup2019_aluno
